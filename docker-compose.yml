@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      DB_URL: "postgres://postgres:postgres@db:5432/postgres"
+      DB_URL: "postgres://postgres:postgres@db:5432/rinhadb"
       REDIS_URL: "redis://redis"
     hostname: api01
     depends_on:
@@ -24,7 +24,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      DB_URL: "postgres://postgres:postgres@db:5432/postgres"
+      DB_URL: "postgres://postgres:postgres@db:5432/rinhadb"
       REDIS_URL: "redis://redis"
     hostname: api02
     depends_on:
@@ -54,11 +54,10 @@ services:
           memory: "0.5GB"
 
   db: # Banco de dados
-    image: postgres:alpine
-    restart: "no"
+    image: postgres
     hostname: db
     environment:
-      POSTGRES_DB: "postgres"
+      POSTGRES_DB: "rinhadb"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
     volumes:
