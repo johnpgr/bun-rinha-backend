@@ -1,7 +1,15 @@
 import { Elysia } from "elysia";
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
-
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+new Elysia()
+  .get("/", () => "Hello Elysia")
+  .get("/pessoas", () => "Hello from /pessoas")
+  .listen(
+    {
+      hostname: "0.0.0.0",
+      port: "8080",
+    },
+    (server) =>
+      console.log(
+        `index.ts:${process.pid}: Server is running on ${server.hostname}:${server.port}`
+      )
+  );

@@ -3,13 +3,20 @@
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts",
+    "typegen:watch": "pgtyped -c -w pgtyped.config.json"
   },
   "dependencies": {
-    "elysia": "latest"
+    "@pgtyped/cli": "^2.2.1",
+    "@pgtyped/query": "^2.2.0",
+    "@pgtyped/runtime": "^2.1.0",
+    "elysia": "latest",
+    "pg": "^8.11.3"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "@types/pg": "^8.10.2",
+    "bun-types": "latest",
+    "typescript": "^5.2.2"
   },
   "module": "src/index.js"
 }
