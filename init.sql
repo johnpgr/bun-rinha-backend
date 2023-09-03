@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS pessoas (
-    id VARCHAR(33) PRIMARY KEY,
-    apelido VARCHAR(32) UNIQUE,
-    nome VARCHAR(100),
-    nascimento CHAR(10),
+    id VARCHAR(36) PRIMARY KEY,
+    apelido VARCHAR(32) NOT NULL UNIQUE,
+    nome VARCHAR(100) NOT NULL,
+    nascimento CHAR(10) NOT NULL,
     stack VARCHAR(1024),
     busca_trgm TEXT GENERATED ALWAYS AS (
         LOWER(nome || apelido || stack)

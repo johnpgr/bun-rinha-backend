@@ -1,19 +1,29 @@
 {
   "name": "bun-rinha-be",
   "version": "1.0.50",
+  "main": "src/app.ts",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "test": "bun run typegen && bun test generated",
+    "dev": "bun run --watch src/app.ts",
+    "start": "bun run typegen && bun run generated/app.ts",
+    "db:introspect": "drizzle-kit introspect:pg",
+    "db:generate": "drizzle-kit generate:pg",
+    "postinstall": "ts-patch install",
+    "typegen": "typia generate --input src --output generated --project tsconfig.json",
+    "clean:types": "rm -rf generated"
   },
   "dependencies": {
     "drizzle-orm": "^0.28.5",
     "elysia": "latest",
-    "hyperid": "^3.1.1",
-    "postgres": "^3.3.5"
+    "postgres": "^3.3.5",
+    "typia": "^5.0.1"
   },
   "devDependencies": {
     "bun-types": "latest",
     "drizzle-kit": "^0.19.13",
+    "ts-node": "^10.9.1",
+    "ts-patch": "^3.0.2",
     "typescript": "^5.2.2"
   },
   "module": "src/index.js"
