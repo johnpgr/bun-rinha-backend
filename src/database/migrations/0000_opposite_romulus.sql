@@ -2,7 +2,7 @@
 -- If you want to run this migration please uncomment this code before executing migrations
 /*
 CREATE TABLE IF NOT EXISTS "pessoas" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"id" varchar(36) PRIMARY KEY NOT NULL,
 	"apelido" varchar(32) NOT NULL,
 	"nome" varchar(100) NOT NULL,
 	"nascimento" char(10) NOT NULL,

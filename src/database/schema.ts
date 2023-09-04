@@ -2,7 +2,6 @@ import {
   pgTable,
   index,
   unique,
-  uuid,
   varchar,
   char,
   text,
@@ -11,7 +10,10 @@ import {
 export const pessoas = pgTable(
   "pessoas",
   {
-    id: uuid("id").defaultRandom().primaryKey().notNull(),
+    id: varchar("id", { length: 36 })
+      .primaryKey()
+      .notNull()
+      .$defaultFn(() => crypto.randomUUID()),
     apelido: varchar("apelido", { length: 32 }).notNull(),
     nome: varchar("nome", { length: 100 }).notNull(),
     nascimento: char("nascimento", { length: 10 }).notNull(),
@@ -25,3 +27,6 @@ export const pessoas = pgTable(
     }
   }
 )
+
+export type PessoaModel = typeof pessoas.$inferSelect
+export type PessoaInsertModel = typeof pessoas.$inferInsert

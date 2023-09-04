@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS pessoas (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    id VARCHAR(36) PRIMARY KEY,
     apelido VARCHAR(32) NOT NULL UNIQUE,
     nome VARCHAR(100) NOT NULL,
     nascimento CHAR(10) NOT NULL,
