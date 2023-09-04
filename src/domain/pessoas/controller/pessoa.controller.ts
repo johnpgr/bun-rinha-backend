@@ -104,7 +104,7 @@ export const pessoasController = (app: AppContext) => {
             if (e.code === "VALIDATION") {
               return new ValidationError(e.error.message)
             }
-            return e
+            return new UnknownError(e.error.message)
           },
         }
       )

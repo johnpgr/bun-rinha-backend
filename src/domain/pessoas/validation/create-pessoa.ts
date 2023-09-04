@@ -11,8 +11,24 @@ const Nascimento = t.String({
 })
 
 export const CreatePessoaBody = t.Object({
-  nome: t.String({ maxLength: 100 }),
-  apelido: t.String({ maxLength: 32 }),
+  nome: t.String({
+    maxLength: 100,
+    error: "Nome must be a string with a maximum of 100 characters",
+  }),
+  apelido: t.String({
+    maxLength: 32,
+    error: "Apelido must be a string with a maximum of 32 characters",
+  }),
   nascimento: Nascimento,
-  stack: t.Array(t.String({ maxLength: 32 }), { maxItems: 32 }),
+  stack: t.Array(
+    t.String({
+      maxLength: 32,
+      error:
+        "Stack must be an array of strings with a maximum of 32 characters",
+    }),
+    {
+      maxItems: 32,
+      error: "Stack must be an array of strings with a maximum of 32 items",
+    }
+  ),
 })

@@ -94,7 +94,6 @@ describe("pessoasController", () => {
     const json = await res.json()
     expect(json).toHaveProperty("code")
     expect(json).toHaveProperty("message")
-    expect(json).toHaveProperty("errors")
   })
 
   it("should return 400 when pessoa nome is invalid", async () => {
@@ -109,7 +108,6 @@ describe("pessoasController", () => {
     const json = await res.json()
     expect(json).toHaveProperty("code")
     expect(json).toHaveProperty("message")
-    expect(json).toHaveProperty("errors")
   })
 
   it("should return 400 when pessoa stack size is invalid", async () => {
@@ -124,7 +122,6 @@ describe("pessoasController", () => {
     const json = await res.json()
     expect(json).toHaveProperty("code")
     expect(json).toHaveProperty("message")
-    expect(json).toHaveProperty("errors")
   })
 
   it("should return 400 when pessoa stack string length is invalid", async () => {
@@ -139,7 +136,6 @@ describe("pessoasController", () => {
     const json = await res.json()
     expect(json).toHaveProperty("code")
     expect(json).toHaveProperty("message")
-    expect(json).toHaveProperty("errors")
   })
   afterAll(async () => {
     await db
