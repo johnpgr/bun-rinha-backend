@@ -14,7 +14,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.15"
+          cpus: "0.3"
           memory: "0.5GB"
 
   api02: # API - Instância 01
@@ -31,7 +31,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.15"
+          cpus: "0.3"
           memory: "0.5GB"
 
   nginx: # Load Balancer
@@ -66,7 +66,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "1"
+          cpus: "0.7"
           memory: "1.5GB"
 
 networks:

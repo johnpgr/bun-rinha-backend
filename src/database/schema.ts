@@ -1,8 +1,8 @@
-import { InferInsertModel, InferSelectModel } from "drizzle-orm"
 import {
   pgTable,
   index,
   unique,
+  uuid,
   varchar,
   char,
   text,
@@ -11,9 +11,7 @@ import {
 export const pessoas = pgTable(
   "pessoas",
   {
-    id: varchar("id", { length: 36 })
-      .primaryKey()
-      .$defaultFn(() => crypto.randomUUID()),
+    id: uuid("id").defaultRandom().primaryKey().notNull(),
     apelido: varchar("apelido", { length: 32 }).notNull(),
     nome: varchar("nome", { length: 100 }).notNull(),
     nascimento: char("nascimento", { length: 10 }).notNull(),
@@ -25,8 +23,5 @@ export const pessoas = pgTable(
       idxPessoasBuscaTrgm: index("idx_pessoas_busca_trgm").on(table.buscaTrgm),
       pessoasApelidoKey: unique("pessoas_apelido_key").on(table.apelido),
     }
-  },
+  }
 )
-
-export type PessoaModel = InferSelectModel<typeof pessoas>
-export type PessoaInsertModel = InferInsertModel<typeof pessoas>
