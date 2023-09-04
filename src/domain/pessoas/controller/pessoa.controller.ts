@@ -2,7 +2,7 @@ import {
   FailedInsertError,
   ResourceNotFoundError,
   ValidationError,
-  ValueConflictError,
+  UnknownError,
 } from "@/shared/error-responses"
 import type { AppContext } from "@/context"
 import { schema } from "@/database"
@@ -85,15 +85,11 @@ export const pessoasController = (app: AppContext) => {
 
           if (!result.success) {
             if (result.error instanceof pg.PostgresError) {
-              if (result.error.message.startsWith("duplicate key")) {
-                set.status = 422
-                return new ValueConflictError(
-                  `Pessoa with apelido '${pessoa.apelido}' already exists`
-                )
-              }
+              set.status = 422
+              return new FailedInsertError(result.error.message)
             }
             set.status = 500
-            return new FailedInsertError(result.error.message)
+            return new UnknownError(result.error.message)
           }
 
           set.headers["Location"] = `/pessoas/${result.data[0]!.id}`
@@ -105,8 +101,8 @@ export const pessoasController = (app: AppContext) => {
         {
           body: CreatePessoaBody,
           error: (e) => {
-            if (e.code === "INTERNAL_SERVER_ERROR") {
-              console.error(e)
+            if (e.code === "VALIDATION") {
+              return new ValidationError(e.error.message)
             }
             return e
           },

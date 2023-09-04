@@ -5,7 +5,7 @@ import * as schema from "./schema"
 const DB_URL =
   process.env.DB_URL || "postgres://postgres:postgres@localhost:5432/rinhadb"
 
-const connection = postgres(DB_URL, { max: 4 })
+const connection = postgres(DB_URL)
 
 const db = drizzle(connection, { schema })
 

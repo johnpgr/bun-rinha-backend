@@ -1,33 +1,33 @@
 import type { ErrorCode } from "./error-codes"
 import { ErrorCodes } from "./error-codes"
 
-export class GenericError {
+class BaseError {
   constructor(
     public readonly code: ErrorCode,
     public readonly message: string
   ) {}
 }
 
-export class ResourceNotFoundError extends GenericError {
+export class UnknownError extends BaseError {
+  constructor(message: string) {
+    super(ErrorCodes.UnkownError, message)
+  }
+}
+
+export class ResourceNotFoundError extends BaseError {
   constructor(message: string) {
     super(ErrorCodes.ResourceNotFound, message)
   }
 }
 
-export class ValidationError extends GenericError {
+export class ValidationError extends BaseError {
   constructor(message: string) {
     super(ErrorCodes.ValidationError, message)
   }
 }
 
-export class FailedInsertError extends GenericError {
+export class FailedInsertError extends BaseError {
   constructor(message: string) {
     super(ErrorCodes.FailedInsert, message)
-  }
-}
-
-export class ValueConflictError extends GenericError {
-  constructor(message: string) {
-    super(ErrorCodes.ValueConflict, message)
   }
 }
