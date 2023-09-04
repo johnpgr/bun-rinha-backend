@@ -2,6 +2,7 @@ import { appFactory, appUrl } from "@/app"
 import { appContext } from "@/context"
 import { db, schema } from "@/database"
 import { appRequest } from "@/shared/app-request"
+import { ErrorCodes } from "@/shared/error-codes"
 import { afterAll, beforeAll, describe, expect, it } from "bun:test"
 import { eq } from "drizzle-orm"
 
@@ -79,6 +80,7 @@ describe("pessoasController", () => {
 
     const json = await res.json()
     expect(json).toHaveProperty("code")
+    expect(json.code).toStrictEqual(ErrorCodes.FailedInsert)
     expect(json).toHaveProperty("message")
   })
 
@@ -93,6 +95,7 @@ describe("pessoasController", () => {
 
     const json = await res.json()
     expect(json).toHaveProperty("code")
+    expect(json.code).toStrictEqual(ErrorCodes.ValidationError)
     expect(json).toHaveProperty("message")
   })
 
@@ -107,6 +110,7 @@ describe("pessoasController", () => {
 
     const json = await res.json()
     expect(json).toHaveProperty("code")
+    expect(json.code).toStrictEqual(ErrorCodes.ValidationError)
     expect(json).toHaveProperty("message")
   })
 
@@ -121,6 +125,7 @@ describe("pessoasController", () => {
 
     const json = await res.json()
     expect(json).toHaveProperty("code")
+    expect(json.code).toStrictEqual(ErrorCodes.ValidationError)
     expect(json).toHaveProperty("message")
   })
 
@@ -135,6 +140,7 @@ describe("pessoasController", () => {
 
     const json = await res.json()
     expect(json).toHaveProperty("code")
+    expect(json.code).toStrictEqual(ErrorCodes.ValidationError)
     expect(json).toHaveProperty("message")
   })
   afterAll(async () => {
