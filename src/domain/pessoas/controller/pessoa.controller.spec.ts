@@ -4,7 +4,6 @@ import { db, schema } from "@/database"
 import { appRequest } from "@/shared/app-request"
 import { afterAll, beforeAll, describe, expect, it } from "bun:test"
 import { eq } from "drizzle-orm"
-import { IPessoaInsertDto } from "../dto/pessoa.dto"
 
 describe("pessoasController", () => {
   const app = appFactory(appContext)
@@ -20,30 +19,30 @@ describe("pessoasController", () => {
     })
   })
 
-  const validPessoa: IPessoaInsertDto = {
+  const validPessoa = {
     apelido: "John_Doe",
     nome: "John Doe",
     nascimento: "1990-01-01",
     stack: ["Node.js", "React"],
   }
 
-  const invalidPessoaApelido: IPessoaInsertDto = {
+  const invalidPessoaApelido = {
     ...validPessoa,
     apelido: "A".repeat(33),
   }
 
-  const invalidPessoaNome: IPessoaInsertDto = {
+  const invalidPessoaNome = {
     ...validPessoa,
     apelido: "John_Doe_2",
     nome: "A".repeat(101),
   }
 
-  const invalidPessoaStackSize: IPessoaInsertDto = {
+  const invalidPessoaStackSize = {
     ...validPessoa,
     stack: Array.from({ length: 33 }, () => "Invalid"),
   }
 
-  const invalidPessoaStackStringLength: IPessoaInsertDto = {
+  const invalidPessoaStackStringLength = {
     ...validPessoa,
     stack: ["A".repeat(33)],
   }
@@ -69,14 +68,14 @@ describe("pessoasController", () => {
     expect(json).toHaveProperty("id")
   })
 
-  it("should return 409 when pessoa with same apelido already exists", async () => {
+  it("should return 422 when pessoa with same apelido already exists", async () => {
     const res = await appRequest(app, {
       method: "POST",
       endpoint: "pessoas",
       body: validPessoa,
     })
 
-    expect(res.status).toStrictEqual(409)
+    expect(res.status).toStrictEqual(422)
 
     const json = await res.json()
     expect(json).toHaveProperty("code")

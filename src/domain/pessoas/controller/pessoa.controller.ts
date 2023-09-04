@@ -50,7 +50,7 @@ export const pessoasController = (app: AppContext) => {
           },
         }
       )
-      .get("/:id", async ({ db, params }) => {
+      .get("/:id", async ({ db, params, set }) => {
         const [pessoa] = await db
           .select({
             id: schema.pessoas.id,
@@ -63,6 +63,7 @@ export const pessoasController = (app: AppContext) => {
           .where(eq(schema.pessoas.id, params.id))
 
         if (!pessoa) {
+          set.status = 404
           return new ResourceNotFoundError(
             `Pessoa with id '${params.id}' not found`
           )
@@ -85,21 +86,30 @@ export const pessoasController = (app: AppContext) => {
           if (!result.success) {
             if (result.error instanceof pg.PostgresError) {
               if (result.error.message.startsWith("duplicate key")) {
+                set.status = 422
                 return new ValueConflictError(
                   `Pessoa with apelido '${pessoa.apelido}' already exists`
                 )
               }
             }
+            set.status = 500
             return new FailedInsertError(result.error.message)
           }
 
           set.headers["Location"] = `/pessoas/${result.data[0]!.id}`
+          set.status = 201
           const inserted = result.data[0]! as { id: string }
 
           return inserted
         },
         {
           body: CreatePessoaBody,
+          error: (e) => {
+            if (e.code === "INTERNAL_SERVER_ERROR") {
+              console.error(e)
+            }
+            return e
+          },
         }
       )
   )

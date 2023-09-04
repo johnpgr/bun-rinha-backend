@@ -7,6 +7,6 @@ const DB_URL =
 
 const connection = postgres(DB_URL, { max: 4 })
 
-const db = drizzle(connection, { schema, logger: true })
+const db = drizzle(connection, { schema })
 
 export { db, schema }

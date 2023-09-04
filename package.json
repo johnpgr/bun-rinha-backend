@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "bun run --watch src/app.ts",
-    "start": "bun build --outdir=dist --target=bun --minify src/app.ts && bun --bun run dist/app.js ",
-    "db:introspect": "drizzle-kit introspect:pg",
+    "start": "bun build --outdir=dist --target=bun src/app.ts && bun --bun run dist/app.js ",
+    "apect": "drizzle-kit introspect:pg",
     "db:generate": "drizzle-kit generate:pg",
     "clean": "rm -rf dist && rm -rf node_modules"
   },
@@ -20,5 +20,5 @@
     "drizzle-kit": "^0.19.13",
     "typescript": "^5.2.2"
   },
-  "module": "src/index.js"
+  "module": "src/app.ts"
 }
