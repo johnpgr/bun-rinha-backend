@@ -2,7 +2,11 @@ import { appFactory, appUrl } from "../app"
 
 export function appRequest(
   app: ReturnType<typeof appFactory>,
-  { endpoint = "", body, method = "GET" }: { endpoint?: string; body?: unknown; method?: string }
+  {
+    endpoint = "",
+    body,
+    method = "GET",
+  }: { endpoint?: string; body?: unknown; method?: string },
 ) {
   return app.handle(
     new Request(`${appUrl.full}/${endpoint}`, {
@@ -11,6 +15,6 @@ export function appRequest(
       headers: {
         "Content-Type": "application/json",
       },
-    })
+    }),
   )
 }

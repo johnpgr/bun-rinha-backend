@@ -1,6 +1,6 @@
 import { Elysia } from "elysia"
 import { appContext } from "./context"
-import { pessoasController } from "./pessoas/controller/pessoa.controller"
+import { pessoasController } from "./domain/pessoas/controller/pessoa.controller"
 
 export const appUrl = {
   hostname: "0.0.0.0",
@@ -21,7 +21,9 @@ if (process.env.NODE_ENV !== "test") {
   const app = appFactory(appContext)
 
   app.listen(appUrl, (server) =>
-    console.log(`index.ts:${process.pid}: Server is running on ${server.hostname}:${server.port}`)
+    console.log(
+      `index.ts:${process.pid}: Server is running on ${server.hostname}:${server.port}`,
+    ),
   )
 }
 

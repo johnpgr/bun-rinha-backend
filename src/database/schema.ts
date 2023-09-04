@@ -1,5 +1,12 @@
 import { InferInsertModel, InferSelectModel } from "drizzle-orm"
-import { pgTable, index, unique, varchar, char, text } from "drizzle-orm/pg-core"
+import {
+  pgTable,
+  index,
+  unique,
+  varchar,
+  char,
+  text,
+} from "drizzle-orm/pg-core"
 
 export const pessoas = pgTable(
   "pessoas",
@@ -18,7 +25,7 @@ export const pessoas = pgTable(
       idxPessoasBuscaTrgm: index("idx_pessoas_busca_trgm").on(table.buscaTrgm),
       pessoasApelidoKey: unique("pessoas_apelido_key").on(table.apelido),
     }
-  }
+  },
 )
 
 export type PessoaModel = InferSelectModel<typeof pessoas>

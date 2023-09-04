@@ -1,10 +1,10 @@
-import { describe, it, beforeAll, afterAll, test, expect } from "bun:test"
-import { appFactory, appUrl } from "../../app"
-import { PessoaInsertDto, parsePessoaDto } from "../dto/pessoa.dto"
-import { appContext } from "../../context"
-import { appRequest } from "../../shared/app-request"
-import { db, schema } from "../../database"
+import { appFactory, appUrl } from "@/app"
+import { appContext } from "@/context"
+import { db, schema } from "@/database"
+import { appRequest } from "@/shared/app-request"
+import { afterAll, beforeAll, describe, expect, it } from "bun:test"
 import { eq } from "drizzle-orm"
+import { IPessoaInsertDto } from "../dto/pessoa.dto"
 
 describe("pessoasController", () => {
   const app = appFactory(appContext)
@@ -12,36 +12,38 @@ describe("pessoasController", () => {
   beforeAll(async () => {
     await new Promise<void>((resolve) => {
       app.listen(appUrl, (server) => {
-        console.log(`index.ts:${process.pid}: Server is running on ${server.hostname}:${server.port}`)
+        console.log(
+          `index.ts:${process.pid}: Server is running on ${server.hostname}:${server.port}`
+        )
         resolve()
       })
     })
   })
 
-  const validPessoa: PessoaInsertDto = {
+  const validPessoa: IPessoaInsertDto = {
     apelido: "John_Doe",
     nome: "John Doe",
     nascimento: "1990-01-01",
     stack: ["Node.js", "React"],
   }
 
-  const invalidPessoaApelido: PessoaInsertDto = {
+  const invalidPessoaApelido: IPessoaInsertDto = {
     ...validPessoa,
     apelido: "A".repeat(33),
   }
 
-  const invalidPessoaNome: PessoaInsertDto = {
+  const invalidPessoaNome: IPessoaInsertDto = {
     ...validPessoa,
     apelido: "John_Doe_2",
     nome: "A".repeat(101),
   }
 
-  const invalidPessoaStackSize: PessoaInsertDto = {
+  const invalidPessoaStackSize: IPessoaInsertDto = {
     ...validPessoa,
     stack: Array.from({ length: 33 }, () => "Invalid"),
   }
 
-  const invalidPessoaStackStringLength: PessoaInsertDto = {
+  const invalidPessoaStackStringLength: IPessoaInsertDto = {
     ...validPessoa,
     stack: ["A".repeat(33)],
   }
@@ -141,7 +143,9 @@ describe("pessoasController", () => {
     expect(json).toHaveProperty("errors")
   })
   afterAll(async () => {
-    await db.delete(schema.pessoas).where(eq(schema.pessoas.apelido, validPessoa.apelido))
+    await db
+      .delete(schema.pessoas)
+      .where(eq(schema.pessoas.apelido, validPessoa.apelido))
     await app.stop()
   })
 })
