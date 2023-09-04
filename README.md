@@ -14,17 +14,23 @@
 
 ## How to run
 
-- Local development
+### Local development
 
 ```bash
 # Install dependencies
-npm install
+bun install
 
 # Run the project locally
-npm run dev
+bun run dev
 ```
 
-- Docker
+### Production Build
+
+```bash
+bun run start
+```
+
+### Docker
 
 ```bash
 docker-compose up
