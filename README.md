@@ -14,6 +14,10 @@
 - Demonstrate the performance of the [Bun.js](https://bun.sh/) runtime
 - Mantain readable and mantainable code with good DX using a modern ORM ([DrizzleORM](https://orm.drizzle.team))
 
+### First results
+
+![First results](first_iteration_results.png)
+
 ## How to run
 
 ### Local development
