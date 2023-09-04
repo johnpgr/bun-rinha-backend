@@ -5,14 +5,17 @@ import {
   UnknownError,
 } from "@/shared/error-responses"
 import type { AppContext } from "@/context"
-import { schema } from "@/database"
 import { PessoaDto } from "@/domain/pessoas/dto/pessoa.dto"
 import { asyncTryInto } from "@/utils"
 import pg from "postgres"
-import { eq, like } from "drizzle-orm"
 import { t } from "elysia"
 import { CreatePessoaBody } from "../validation/create-pessoa"
-import { PessoaInsertModel } from "@/database/schema"
+import {
+  createPessoa,
+  findPessoaById,
+  findPessoaByTermo,
+} from "../queries/pessoa.queries"
+import { PessoaModel } from "../model/pessoa.model"
 
 export const pessoasController = (app: AppContext) => {
   return app.group("/pessoas", (group) =>
@@ -22,17 +25,12 @@ export const pessoasController = (app: AppContext) => {
         async ({ db, query }) => {
           const termo = query.t.toLowerCase()
 
-          const pessoas = await db
-            .select({
-              id: schema.pessoas.id,
-              nome: schema.pessoas.nome,
-              apelido: schema.pessoas.apelido,
-              nascimento: schema.pessoas.nascimento,
-              stack: schema.pessoas.stack,
-            })
-            .from(schema.pessoas)
-            .where(like(schema.pessoas.buscaTrgm, `%${termo}%`))
-            .limit(50)
+          const pessoas = await findPessoaByTermo.run(
+            {
+              termo: `%${termo}%`,
+            },
+            db
+          )
 
           return pessoas.map((pessoa) => new PessoaDto(pessoa))
         },
@@ -51,16 +49,12 @@ export const pessoasController = (app: AppContext) => {
         }
       )
       .get("/:id", async ({ db, params, set }) => {
-        const [pessoa] = await db
-          .select({
-            id: schema.pessoas.id,
-            nome: schema.pessoas.nome,
-            apelido: schema.pessoas.apelido,
-            nascimento: schema.pessoas.nascimento,
-            stack: schema.pessoas.stack,
-          })
-          .from(schema.pessoas)
-          .where(eq(schema.pessoas.id, params.id))
+        const [pessoa] = await findPessoaById.run(
+          {
+            id: params.id,
+          },
+          db
+        )
 
         if (!pessoa) {
           set.status = 404
@@ -73,15 +67,9 @@ export const pessoasController = (app: AppContext) => {
       .post(
         "/",
         async ({ db, set, body }) => {
-          const pessoa = body as unknown as PessoaInsertModel
-          pessoa.stack = body.stack.join(",")
+          const pessoa = new PessoaModel(body)
 
-          const result = await asyncTryInto(
-            db
-              .insert(schema.pessoas)
-              .values(pessoa)
-              .returning({ id: schema.pessoas.id }).execute
-          )
+          const result = await asyncTryInto(() => createPessoa.run(pessoa, db))
 
           if (!result.success) {
             if (result.error instanceof pg.PostgresError) {
@@ -94,8 +82,8 @@ export const pessoasController = (app: AppContext) => {
 
           set.headers["Location"] = `/pessoas/${result.data[0]!.id}`
           set.status = 201
-          const inserted = result.data[0]! as { id: string }
 
+          const inserted = result.data[0]
           return inserted
         },
         {

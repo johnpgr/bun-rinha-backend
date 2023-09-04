@@ -1,0 +1,23 @@
+{
+  "transforms": [
+    {
+      "mode": "sql",
+      "include": "**/*.sql",
+      "emitTemplate": "{{dir}}/{{name}}.queries.ts"
+    },
+    {
+      "mode": "ts", 
+      "include": "**/*.queries.ts", 
+      "emitTemplate": "{{dir}}/{{name}}.types.ts"
+    }
+  ],
+  "srcDir": "./src/",
+  "failOnError": false,
+  "camelCaseColumnNames": false,
+  "db": {
+    "host": "localhost",
+    "user": "postgres",
+    "dbName": "rinhadb",
+    "password": "postgres"
+  }
+}

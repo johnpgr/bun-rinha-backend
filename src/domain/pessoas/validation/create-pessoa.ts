@@ -32,3 +32,5 @@ export const CreatePessoaBody = t.Object({
     }
   ),
 })
+
+export type ICreatePessoaBody = typeof CreatePessoaBody.static
