@@ -6,11 +6,12 @@ export const Ok = <TData>(data: TData): Result<never, TData> => ({
   success: true,
   data,
 })
+
 export const Err = <TError extends Error>(
-  error: TError,
+  error: TError
 ): Result<TError, never> => ({ success: false, error })
 
-export const tryInto = <T>(fn: () => T): Result<Error, T> => {
+export const tryCatchSync = <T>(fn: () => T): Result<Error, T> => {
   try {
     return Ok(fn())
   } catch (error) {
@@ -21,8 +22,8 @@ export const tryInto = <T>(fn: () => T): Result<Error, T> => {
   }
 }
 
-export const asyncTryInto = async <T>(
-  fn: () => Promise<T>,
+export const tryCatch = async <T>(
+  fn: () => Promise<T>
 ): Promise<Result<Error, T>> => {
   try {
     return Ok(await fn())

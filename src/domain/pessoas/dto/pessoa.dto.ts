@@ -14,7 +14,7 @@ export class PessoaDto implements IPessoaDto {
   nascimento: string
 
   constructor(data: Omit<IPessoaDto, "stack"> & { stack: string | null }) {
-    //@ts-expect-error this is correct
+    //@ts-expect-error this is ok
     data.stack = data.stack?.split(",") ?? []
     Object.assign(this, data)
   }

@@ -6,7 +6,7 @@ type IDatabaseConnection = Parameters<ReturnType<typeof _sql>["run"]>[1]
 export const sql = postgres(
   process.env.DB_URL || "postgres://postgres:postgres@localhost:5432/rinhadb",
   {
-    max: 20,
+    max: 100,
     idle_timeout: 0,
     connect_timeout: 10,
   }

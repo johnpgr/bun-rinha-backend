@@ -6,7 +6,7 @@ import {
 } from "@/shared/error-responses"
 import type { AppContext } from "@/context"
 import { PessoaDto } from "@/domain/pessoas/dto/pessoa.dto"
-import { asyncTryInto } from "@/utils"
+import { tryCatch } from "@/utils"
 import pg from "postgres"
 import { t } from "elysia"
 import { CreatePessoaBody } from "../validation/create-pessoa"
@@ -69,7 +69,7 @@ export const pessoasController = (app: AppContext) => {
         async ({ db, set, body }) => {
           const pessoa = new PessoaModel(body)
 
-          const result = await asyncTryInto(() => createPessoa.run(pessoa, db))
+          const result = await tryCatch(() => createPessoa.run(pessoa, db))
 
           if (!result.success) {
             if (result.error instanceof pg.PostgresError) {

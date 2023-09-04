@@ -12,7 +12,7 @@ export class PessoaModel implements IFindPessoaByIdResult {
   stack: string | null
 
   constructor(pessoa: ICreatePessoaBody) {
-    //@ts-expect-error ok
+    //@ts-expect-error this is ok
     pessoa.stack = pessoa.stack.join(",")
     Object.assign(this, pessoa)
   }
