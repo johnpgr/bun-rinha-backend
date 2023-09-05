@@ -18,16 +18,14 @@ const appFactory = (_appContext: typeof appContext) =>
     .get("/health", () => ({ status: "ok", uptime: process.uptime() }))
     .get("/contagem-pessoas", async ({ db }) => {
       const [res] = await contagemPessoas.run(undefined, db)
-      return Number(res?.count)
+      return res?.count
     })
 
 if (process.env.NODE_ENV !== "test") {
   const app = appFactory(appContext)
 
   app.listen(appUrl, (server) =>
-    console.log(
-      `index.ts:${process.pid}: Server is running on ${server.hostname}:${server.port}`
-    )
+    console.log(`index.ts:${process.pid}: Server is running on ${appUrl.full}`)
   )
 }
 

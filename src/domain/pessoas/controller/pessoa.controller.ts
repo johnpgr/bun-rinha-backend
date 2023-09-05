@@ -11,6 +11,7 @@ import pg from "postgres"
 import { t } from "elysia"
 import { CreatePessoaBody } from "../validation/create-pessoa"
 import {
+  contagemPessoas,
   createPessoa,
   findPessoaById,
   findPessoaByTermo,
@@ -20,6 +21,7 @@ import { PessoaModel } from "../model/pessoa.model"
 export const pessoasController = (app: AppContext) => {
   return app.group("/pessoas", (group) =>
     group
+
       .get(
         "/",
         async ({ db, query }) => {
