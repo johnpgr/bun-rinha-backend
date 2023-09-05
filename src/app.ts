@@ -15,7 +15,6 @@ const appFactory = (_appContext: typeof appContext) =>
   new Elysia()
     .use(_appContext)
     .use(pessoasController)
-    .get("/health", () => ({ status: "ok", uptime: process.uptime() }))
     .get("/contagem-pessoas", async ({ db }) => {
       const [res] = await contagemPessoas.run(undefined, db)
       return res?.count
