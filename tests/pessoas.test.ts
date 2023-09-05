@@ -1,11 +1,9 @@
 import { appFactory, appUrl } from "@/app"
 import { appContext } from "@/context"
-import { db, schema } from "@/database"
-import { appRequest } from "@/shared/app-request"
-import { ErrorCodes } from "@/shared/error-codes"
+import { db } from "@/database"
 import { afterAll, beforeAll, describe, expect, it } from "bun:test"
-import { eq } from "drizzle-orm"
 
+//TODO Refactor the tests for pg-typed
 describe("pessoasController", () => {
   const app = appFactory(appContext)
 
