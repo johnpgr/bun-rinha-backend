@@ -18,6 +18,10 @@
 
 ![First results](first_iteration_results.png)
 
+### Final results [after optimizations](OPTIMIZATIONS.md)
+
+![Final results](final_results.png)
+
 ## How to run
 
 ### Local development

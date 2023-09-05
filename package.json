@@ -4,20 +4,25 @@
   "main": "src/app.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun run --watch src/app.ts",
-    "start": "bun build --outdir=dist --target=bun src/app.ts && bun --bun run dist/app.js ",
-    "db:introspect": "drizzle-kit introspect:pg",
-    "db:generate": "drizzle-kit generate:pg",
-    "clean": "rm -rf dist && rm -rf node_modules"
+    "start": "bun run typia && bun run build && bun run --bun dist/app.js",
+    "build": "bun build generated/app.ts --outdir dist --target bun",
+    "pgtyped": "bunx pgtyped -c pgtyped.config.json",
+    "typia": "bunx typia generate --input src --output generated --project tsconfig.json",
+    "typegen": "bun run typia && bun run pgtyped",
+    "postinstall": "ts-patch install",
+    "clean": "rm -rf dist && rm -rf node_modules && rm -rf generated"
   },
   "dependencies": {
-    "drizzle-orm": "^0.28.5",
+    "@pgtyped/cli": "^2.2.1",
+    "@pgtyped/runtime": "^2.1.0",
     "elysia": "latest",
-    "postgres": "^3.3.5"
+    "postgres": "^3.3.5",
+    "typia": "^5.0.2"
   },
   "devDependencies": {
     "bun-types": "latest",
-    "drizzle-kit": "^0.19.13",
+    "ts-node": "^10.9.1",
+    "ts-patch": "^3.0.2",
     "typescript": "^5.2.2"
   },
   "module": "src/app.ts"

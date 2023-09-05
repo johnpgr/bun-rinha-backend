@@ -1,34 +1,13 @@
-import { t } from "elysia"
+import { tags, createValidate } from "typia"
 
-/**
- * @example "2021-01-01"
- */
-const Nascimento = t.String({
-  format: "date",
-  minLength: 10,
-  maxLength: 10,
-  error: "Nascimento must be a string in the format 'YYYY-MM-DD'",
-})
+interface CreatePessoaBody {
+  nome: string & tags.MaxLength<100>
+  apelido: string & tags.MaxLength<32>
+  nascimento: string &
+    tags.Format<"date"> &
+    tags.MinLength<10> &
+    tags.MaxLength<10>
+  stack: Array<string & tags.MaxLength<32>> & tags.MaxItems<32>
+}
 
-export const CreatePessoaBody = t.Object({
-  nome: t.String({
-    maxLength: 100,
-    error: "Nome must be a string with a maximum of 100 characters",
-  }),
-  apelido: t.String({
-    maxLength: 32,
-    error: "Apelido must be a string with a maximum of 32 characters",
-  }),
-  nascimento: Nascimento,
-  stack: t.Array(
-    t.String({
-      maxLength: 32,
-      error:
-        "Stack must be an array of strings with a maximum of 32 characters",
-    }),
-    {
-      maxItems: 32,
-      error: "Stack must be an array of strings with a maximum of 32 items",
-    }
-  ),
-})
+export const parsePessoaBody = createValidate<CreatePessoaBody>()

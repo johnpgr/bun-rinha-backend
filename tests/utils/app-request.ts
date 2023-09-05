@@ -1,4 +1,4 @@
-import { appFactory, appUrl } from "../app"
+import { appFactory, appUrl } from "../../src/app"
 
 export function appRequest(
   app: ReturnType<typeof appFactory>,
@@ -6,7 +6,7 @@ export function appRequest(
     endpoint = "",
     body,
     method = "GET",
-  }: { endpoint?: string; body?: unknown; method?: string },
+  }: { endpoint?: string; body?: unknown; method?: string }
 ) {
   return app.handle(
     new Request(`${appUrl.full}/${endpoint}`, {
@@ -15,6 +15,6 @@ export function appRequest(
       headers: {
         "Content-Type": "application/json",
       },
-    }),
+    })
   )
 }
