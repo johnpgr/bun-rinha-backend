@@ -42,4 +42,5 @@ package-lock.json
 **/*.bun
 
 /dist/
+/generated/
 /stress-test/
