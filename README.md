@@ -6,7 +6,6 @@
 
 - [Bun.js](https://bun.sh/) (Fast javascript/typescript runtime)
 - [Elysia.js](https://elysiajs.com) (HTTP Framework)
-- [DrizzleORM](https://orm.drizzle.team) (ORM)
 - [PostgreSQL](https://www.postgresql.org/) (Database)
 
 ## Objectives
