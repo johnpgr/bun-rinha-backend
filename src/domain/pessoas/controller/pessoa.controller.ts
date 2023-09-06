@@ -3,10 +3,10 @@ import { tryCatch } from "@/utils"
 import pg from "postgres"
 import { parsePessoaBody } from "../validation/create-pessoa"
 import {
-  createPessoa,
-  findPessoaById,
-  findPessoaByTermo,
-} from "../queries/pessoa.queries"
+  insertPessoa,
+  selectPessoaById,
+  selectPessoaByTermo,
+} from "../queries/pessoas.queries"
 
 /**
  * Why all the ts-expect-error ?
@@ -19,16 +19,15 @@ export const pessoasController = (app: AppContext) => {
   return app.group("/pessoas", (group) =>
     group
       .get("/", async (ctx) => {
-        if (typeof ctx.query["t"] !== "string") {
+        const termo = ctx.query["t"]
+        if (!termo) {
           ctx.set.status = 400
           return
         }
 
-        const termo = ctx.query["t"].toLowerCase()
-
-        const pessoas = await findPessoaByTermo.run(
+        const pessoas = await selectPessoaByTermo.run(
           {
-            termo: `%${termo}%`,
+            termo: `%${(termo as string).toLowerCase()}%`,
           },
           ctx.db
         )
@@ -41,7 +40,7 @@ export const pessoasController = (app: AppContext) => {
         return pessoas
       })
       .get("/:id", async (ctx) => {
-        const [pessoa] = await findPessoaById.run(
+        const [pessoa] = await selectPessoaById.run(
           {
             id: ctx.params.id,
           },
@@ -73,7 +72,7 @@ export const pessoasController = (app: AppContext) => {
 
         const result = await tryCatch(() =>
           //@ts-expect-error ok
-          createPessoa.run(pessoa.data, ctx.db)
+          insertPessoa.run(pessoa.data, ctx.db)
         )
 
         if (!result.success) {
@@ -92,6 +91,5 @@ export const pessoasController = (app: AppContext) => {
 
         return insertedId
       })
-      .onError((e) => console.error(e))
   )
 }

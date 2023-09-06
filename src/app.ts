@@ -1,7 +1,7 @@
 import { Elysia } from "elysia"
 import { appContext } from "./context"
 import { pessoasController } from "./domain/pessoas/controller/pessoa.controller"
-import { contagemPessoas } from "./domain/pessoas/queries/pessoa.queries"
+import { selectPessoaCount } from "./domain/pessoas/queries/pessoas.queries"
 
 export const appUrl = {
   hostname: "0.0.0.0",
@@ -16,7 +16,7 @@ const appFactory = (_appContext: typeof appContext) =>
     .use(_appContext)
     .use(pessoasController)
     .get("/contagem-pessoas", async ({ db }) => {
-      const [res] = await contagemPessoas.run(undefined, db)
+      const [res] = await selectPessoaCount.run(undefined, db)
       return res?.count
     })
 

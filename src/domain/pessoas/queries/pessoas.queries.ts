@@ -1,27 +1,27 @@
 import { sql } from "@pgtyped/runtime"
 import {
-  IContagemPessoasQuery,
-  ICreatePessoaQuery,
-  IFindPessoaByIdQuery,
-  IFindPessoaByTermoQuery,
-} from "./pessoa.queries.types"
+  IInsertPessoaQuery,
+  ISelectPessoaByIdQuery,
+  ISelectPessoaByTermoQuery,
+  ISelectPessoaCountQuery,
+} from "./pessoas.queries.types"
 
-export const createPessoa = sql<ICreatePessoaQuery>`
+export const insertPessoa = sql<IInsertPessoaQuery>`
   INSERT INTO pessoas (id,nome,apelido,nascimento,stack)
   VALUES ($id, $nome, $apelido, $nascimento, $stack)
   RETURNING id`
 
-export const findPessoaById = sql<IFindPessoaByIdQuery>`
+export const selectPessoaById = sql<ISelectPessoaByIdQuery>`
   SELECT id, nome, apelido, nascimento, stack
   FROM pessoas WHERE id = $id`
 
-export const findPessoaByTermo = sql<IFindPessoaByTermoQuery>`
+export const selectPessoaByTermo = sql<ISelectPessoaByTermoQuery>`
   SELECT id, nome, apelido, nascimento, stack
   FROM pessoas
   WHERE busca_trgm
   LIKE $termo
   LIMIT 50`
 
-export const contagemPessoas = sql<IContagemPessoasQuery>`
+export const selectPessoaCount = sql<ISelectPessoaCountQuery>`
   SELECT COUNT(*)
   FROM pessoas`
