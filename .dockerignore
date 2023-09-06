@@ -1,2 +1,3 @@
-node_modules
-stress-test
+/node_modules
+/stress-test
+/generated

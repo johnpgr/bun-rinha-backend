@@ -1,7 +1,6 @@
 import type { AppContext } from "@/context"
 import { tryCatch } from "@/utils"
-import pg from "postgres"
-import { parsePessoaBody } from "../validation/create-pessoa"
+import { CreatePessoaBody } from "../types/create-pessoa"
 import {
   insertPessoa,
   selectPessoaById,
@@ -53,43 +52,39 @@ export const pessoasController = (app: AppContext) => {
         }
 
         //@ts-expect-error ok
-        pessoa.stack = pessoa?.stack?.split(",") ?? []
+        pessoa.stack = pessoa.stack?.split(",") ?? []
 
         return pessoa
       })
       .post("/", async (ctx) => {
-        const pessoa = parsePessoaBody(ctx.body)
+        const pessoa = ctx.body as CreatePessoaBody
 
-        if (!pessoa.success) {
+        // @ts-expect-error ok
+        pessoa.stack = Array.isArray(pessoa.stack)
+          ? pessoa.stack.join(",")
+          : null
+
+        const result = await tryCatch(() =>
+          //@ts-expect-error ok
+          insertPessoa.run(pessoa, ctx.db)
+        )
+
+        if (!result.success) {
           ctx.set.status = 400
           return
         }
 
-        //@ts-expect-error ok
-        pessoa.data.stack = pessoa.data.stack.join(",")
-        //@ts-expect-error ok
-        pessoa.data.id = crypto.randomUUID()
+        const [insert] = result.data
 
-        const result = await tryCatch(() =>
-          //@ts-expect-error ok
-          insertPessoa.run(pessoa.data, ctx.db)
-        )
-
-        if (!result.success) {
-          if (result.error instanceof pg.PostgresError) {
-            ctx.set.status = 422
-            return
-          }
-          ctx.set.status = 500
+        if (!insert) {
+          ctx.set.status = 422
           return
         }
 
-        const insertedId = result.data[0]?.id
-
-        ctx.set.headers["Location"] = `/pessoas/${insertedId}`
+        ctx.set.headers["Location"] = `/pessoas/${insert.id}`
         ctx.set.status = 201
 
-        return insertedId
+        return insert.id
       })
   )
 }

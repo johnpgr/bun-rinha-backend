@@ -3,7 +3,6 @@
 /** 'InsertPessoa' parameters type */
 export interface IInsertPessoaParams {
   apelido?: string | null | void;
-  id?: string | null | void;
   nascimento?: string | null | void;
   nome?: string | null | void;
   stack?: string | null | void;
