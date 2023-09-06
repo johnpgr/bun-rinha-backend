@@ -14,8 +14,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.4"
-          memory: "0.8GB"
+          cpus: "0.3"
+          memory: "0.5GB"
 
   api02: # API - Instância 01
     build:
@@ -31,8 +31,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.4"
-          memory: "0.8GB"
+          cpus: "0.3"
+          memory: "0.5GB"
 
   nginx: # Load Balancer
     image: nginx:latest
@@ -47,7 +47,7 @@ services:
       resources:
         limits:
           cpus: "0.2"
-          memory: "0.4GB"
+          memory: "0.5GB"
 
   db: # Banco de dados
     image: postgres
@@ -66,8 +66,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.5"
-          memory: "1GB"
+          cpus: "0.7"
+          memory: "1.5GB"
 
 networks:
   default:
