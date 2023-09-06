@@ -21,6 +21,11 @@
 
 ![Final results](resources/final_results.png)
 
+### With 0 input validation
+
+Now only the db is gatekeeping inputs
+![More optimizations](resources/more_optimizations.png)
+
 ## How to run
 
 ### Local development
@@ -46,6 +51,8 @@ docker-compose up
 ```
 
 ## Tests
+
+The tests are outdated and I'm lazy to update them
 
 ```bash
 bun test
