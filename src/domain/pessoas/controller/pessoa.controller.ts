@@ -33,10 +33,7 @@ export const pessoasController = (app: AppContext) => {
           ctx.db
         )
 
-        for (let i = 0; i < pessoas.length; i++) {
-          const pessoa = pessoas[i]
-          if (!pessoa) continue
-
+        for (const pessoa of pessoas) {
           //@ts-expect-error ok
           pessoa.stack = pessoa.stack?.split(",") ?? []
         }
