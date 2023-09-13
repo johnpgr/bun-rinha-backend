@@ -1,0 +1,30 @@
+version: "3.5"
+services:
+  db: # Banco de dados
+    image: postgres
+    hostname: db
+    # network_mode: "host"
+    environment:
+      POSTGRES_DB: "rinhadb"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./postgresql.conf:/docker-entrypoint-initdb.d/postgresql.conf
+      - postgres_data:/var/lib/postgresql/data
+    command: postgres -c config_file=/docker-entrypoint-initdb.d/postgresql.conf
+    ports:
+      - 5432:5432
+    deploy:
+      resources:
+        limits:
+          cpus: "0.8"
+          memory: "1.5GB"
+
+networks:
+  default:
+    driver: bridge
+    name: rinha
+
+volumes:
+  postgres_data:

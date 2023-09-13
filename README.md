@@ -4,22 +4,17 @@
 
 ## This project was developed with:
 
-- [Bun.js](https://bun.sh/) (Fast javascript/typescript runtime)
-- [Elysia.js](https://elysiajs.com) (HTTP Framework)
-- [PostgreSQL](https://www.postgresql.org/) (Database)
+-   [Bun.js](https://bun.sh/) (Fast javascript/typescript runtime)
+-   [Elysia.js](https://elysiajs.com) (HTTP Framework)
+-   [PostgreSQL](https://www.postgresql.org/) (Database)
 
 ### First results
 
 ![First results](resources/first_iteration_results.png)
 
-### Final results [after optimizations](OPTIMIZATIONS.md)
+### Final results
 
 ![Final results](resources/final_results.png)
-
-### With 0 input validation
-
-Now only the db is gatekeeping inputs
-![More optimizations](resources/more_optimizations.png)
 
 ## How to run
 
@@ -29,14 +24,12 @@ Now only the db is gatekeeping inputs
 # Install dependencies
 bun install
 
+# Start postgres locally
+docker-compose -f docker-compose.dev.yml up
+
 # Run the project locally
-bun run dev
-```
+bun start
 
-### Production Build
-
-```bash
-bun run start
 ```
 
 ### Docker

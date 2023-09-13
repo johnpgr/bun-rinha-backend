@@ -17,7 +17,7 @@ export const pessoasController = (app: AppContext) => {
                     {
                         termo: `%${termo.toLowerCase()}%`,
                     },
-                    ctx.db
+                    ctx.db,
                 )
 
                 return pessoas.map((pessoa) => new Pessoa(pessoa).toDto())
@@ -27,7 +27,7 @@ export const pessoasController = (app: AppContext) => {
                     {
                         id: ctx.params.id,
                     },
-                    ctx.db
+                    ctx.db,
                 )
 
                 if (!pessoa) {
@@ -62,6 +62,6 @@ export const pessoasController = (app: AppContext) => {
                 ctx.set.status = 201
 
                 return insert.id
-            })
+            }),
     )
 }
