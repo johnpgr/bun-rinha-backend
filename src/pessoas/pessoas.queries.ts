@@ -1,14 +1,14 @@
 import { sql } from "@pgtyped/runtime"
 import {
-  IInsertPessoaQuery,
-  ISelectPessoaByIdQuery,
-  ISelectPessoaByTermoQuery,
-  ISelectPessoaCountQuery,
+    IInsertPessoaQuery,
+    ISelectPessoaByIdQuery,
+    ISelectPessoaByTermoQuery,
+    ISelectPessoaCountQuery,
 } from "./pessoas.queries.types"
 
 export const insertPessoa = sql<IInsertPessoaQuery>`
-  INSERT INTO pessoas (nome,apelido,nascimento,stack)
-  VALUES ($nome, $apelido, $nascimento, $stack)
+  INSERT INTO pessoas (id,nome,apelido,nascimento,stack)
+  VALUES ($id, $nome, $apelido, $nascimento, $stack)
   RETURNING id`
 
 export const selectPessoaById = sql<ISelectPessoaByIdQuery>`

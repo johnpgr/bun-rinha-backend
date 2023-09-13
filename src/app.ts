@@ -1,11 +1,11 @@
 import { Elysia } from "elysia"
 import { appContext } from "./context"
-import { pessoasController } from "./domain/pessoas/controller/pessoa.controller"
-import { selectPessoaCount } from "./domain/pessoas/queries/pessoas.queries"
+import { pessoasController } from "./pessoas/pessoa.controller"
+import { selectPessoaCount } from "./pessoas/pessoas.queries"
 
 export const appUrl = {
   hostname: "0.0.0.0",
-  port: "8080",
+  port: process.env.PORT || 8080,
   get full() {
     return `http://${this.hostname}:${this.port}`
   },

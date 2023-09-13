@@ -5,12 +5,13 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      DB_URL: "postgres://postgres:postgres@db:5432/rinhadb"
+      PORT: "9990"
     hostname: api01
+    network_mode: "host"
     depends_on:
       - db
-    ports:
-      - "8080"
+    # ports:
+    #   - "8080"
     deploy:
       resources:
         limits:
@@ -22,12 +23,13 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      DB_URL: "postgres://postgres:postgres@db:5432/rinhadb"
+      PORT: "9991"
     hostname: api02
+    network_mode: "host"
     depends_on:
       - db
-    ports:
-      - "8080"
+    # ports:
+    #   - "8080"
     deploy:
       resources:
         limits:
@@ -38,11 +40,12 @@ services:
     image: nginx:latest
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    network_mode: "host"
     depends_on:
       - api01
       - api02
-    ports:
-      - "9999:9999"
+    # ports:
+    #   - "9999:9999"
     deploy:
       resources:
         limits:
@@ -52,6 +55,7 @@ services:
   db: # Banco de dados
     image: postgres
     hostname: db
+    network_mode: "host"
     environment:
       POSTGRES_DB: "rinhadb"
       POSTGRES_USER: "postgres"
@@ -61,18 +65,18 @@ services:
       - ./postgresql.conf:/docker-entrypoint-initdb.d/postgresql.conf
       - postgres_data:/var/lib/postgresql/data
     command: postgres -c config_file=/docker-entrypoint-initdb.d/postgresql.conf
-    ports:
-      - 5432:5432
+    # ports:
+    #   - 5432:5432
     deploy:
       resources:
         limits:
           cpus: "0.8"
           memory: "1.5GB"
 
-networks:
-  default:
-    driver: bridge
-    name: rinha
+# networks:
+#   default:
+#     driver: bridge
+#     name: rinha
 
 volumes:
   postgres_data:
